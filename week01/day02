@@ -1,0 +1,73 @@
+# install nginx 
+
+---
+- name: all
+  hosts: all
+  become: yes
+
+  tasks: 
+    - name: install nginx
+      yum:
+        name: nginx
+	state: present
+    
+    - name: enable nginx
+      service:
+        name: nginx
+	state: started
+	enabled: yes
+
+
+# terraform ec2
+
+provider "aws" {
+  region = "us-east-1"
+}
+
+resource "aws_instance" "sumitec2" {
+  ami = ""
+  instance_type = "r5.2xlarge"
+
+  tags = {
+    name    = "sumit"
+    environment   = "training"
+    owner      = "sumit"
+  }
+}
+
+
+#3 kubernetes deployment.yaml
+
+apiVersion: 2
+kind: deployment
+metadata:
+  name: sumit
+spec:
+  replicas:2
+  selectors:
+    matchlabels:
+      app: sumit app
+    template:
+      metadata:
+        labels:
+	  app: sumit
+	spec:
+	  containers:
+	    - name: app
+	      image: nginx
+	      ports:
+	        port:8080
+## jenkins
+
+pipeline {
+    agent any 
+    tools {
+        maven 'maven:3.8.1
+	jdk 'jdk-17'
+    }
+    stages {
+        stage(checkout) {
+	steps {
+	    git url:
+	}
+    
